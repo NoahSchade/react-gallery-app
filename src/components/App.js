@@ -1,6 +1,6 @@
 import React from 'react';
-import '../other/config.js';
 import '../../src/css/style.css';
+import Key from '../other/config.js';
 import Header from './Header';
 import Gallery from './Gallery';
 
