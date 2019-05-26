@@ -93,10 +93,10 @@ export default class extends Component {
           
           <Switch>
             <Route exact path="/" render={ () => <Redirect to="/cats"/> } />
-            <Route path="/dogs" render={ () => <Gallery data={this.state.dogs} /> } />
-            <Route path="/cats" render={ () => <Gallery data={this.state.cats} /> } />
-            <Route path="/laptops" render={ () => <Gallery data={this.state.laptops} />} />
-            <Route path="/:topic" render={ () => <Gallery data={this.state.custom} /> } />  
+            <Route path="/dogs" render={ () => <Gallery data={this.state.dogs} subject="dog" /> } />
+            <Route path="/cats" render={ () => <Gallery data={this.state.cats} subject="cat" /> } />
+            <Route path="/laptops" render={ () => <Gallery data={this.state.laptops} subject="laptop" />} />
+            <Route path="/:topic" render={ () => <Gallery data={this.state.custom} subject={window.location.pathname} /> } />  
           </Switch>
           
         </div>
