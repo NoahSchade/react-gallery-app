@@ -88,9 +88,7 @@ export default class extends Component {
     return(
       <BrowserRouter>
         <div className="container">
-
           <Header searching={this.searching}/>
-          
           <Switch>
             <Route exact path="/" render={ () => <Redirect to="/cats"/> } />
             <Route path="/dogs" render={ () => <Gallery data={this.state.dogs} subject="dog" /> } />
@@ -98,7 +96,6 @@ export default class extends Component {
             <Route path="/laptops" render={ () => <Gallery data={this.state.laptops} subject="laptop" />} />
             <Route path="/:topic" render={ () => <Gallery data={this.state.custom} subject={window.location.pathname} /> } />  
           </Switch>
-          
         </div>
       </BrowserRouter>
     )
