@@ -12,6 +12,15 @@ const Galleryitem = (props) => {
     )
   });
   
+  if(imageItems.length === 0){
+    imageItems.push(
+      // Not Found
+      <li key="Not Found" className="not-found">
+        <h3>No Results Found</h3>
+        <p>Your search did not return any results. Please try again.</p>
+      </li>
+    )
+  };
   return imageItems;
 }
 
