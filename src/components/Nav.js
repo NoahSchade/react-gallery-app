@@ -1,12 +1,13 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 
-const Nav = (props) => {
+const Nav = () => {
   return (
     <nav className="main-nav">
       <ul>
-        <li><a href="index.html">Cats</a></li>
-        <li><a href="index.html">Dogs</a></li>
-        <li><a href="index.html">Computers</a></li>
+        <li><NavLink to="/cats">Cats</NavLink></li>
+        <li><NavLink to="/dogs">Dogs</NavLink></li>
+        <li><NavLink to="/laptops">Laptops</NavLink></li>
       </ul>
     </nav>
   );

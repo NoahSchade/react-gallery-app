@@ -1,12 +1,12 @@
 import React from 'react';
-import Galleryitem from './Galleryitem';
+import Galleryitem from './Gallery-item';
 
 const Gallery = (props) => {
   return (
     <div className="photo-container">
       <h2>Results</h2>
       <ul>
-        <Galleryitem />
+        <Galleryitem data={props.data} />
       </ul>
     </div>
   );
