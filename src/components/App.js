@@ -16,13 +16,13 @@ export default class extends Component {
 
   constructor() {
     super();
+    this.counter = 1;
     this.state = {
       cats: [],
       dogs: [],
       laptops: [],
       custom: []
     };
-    
   }
 
   componentDidMount() {
@@ -84,6 +84,10 @@ export default class extends Component {
     })
   }
 
+  evaluate = () => {
+    this.counter++;
+  }
+
   render(){
     return(
       <BrowserRouter>
@@ -91,10 +95,10 @@ export default class extends Component {
           <Header searching={this.searching}/>
           <Switch>
             <Route exact path="/" render={ () => <Redirect to="/cats"/> } />
-            <Route path="/dogs" render={ () => <Gallery data={this.state.dogs} subject="dog" /> } />
-            <Route path="/cats" render={ () => <Gallery data={this.state.cats} subject="cat" /> } />
-            <Route path="/laptops" render={ () => <Gallery data={this.state.laptops} subject="laptop" />} />
-            <Route path="/:topic" render={ () => <Gallery data={this.state.custom} subject={window.location.pathname} /> } />  
+            <Route path="/dogs" render={ () => <Gallery data={this.state.dogs} subject="dog" evaluate={this.evaluate} counter={this.counter} /> } />
+            <Route path="/cats" render={ () => <Gallery data={this.state.cats} subject="cat" evaluate={this.evaluate} counter={this.counter} /> } />
+            <Route path="/laptops" render={ () => <Gallery data={this.state.laptops} subject="laptop" evaluate={this.evaluate} counter={this.counter} />} />
+            <Route path="/:topic" render={ () => <Gallery data={this.state.custom} subject={window.location.pathname} evaluate={this.evaluate} counter={this.counter} /> } />  
           </Switch>
         </div>
       </BrowserRouter>

@@ -6,7 +6,7 @@ const Gallery = (props) => {
     <div className="photo-container">
       <h2>{props.subject.match(/\w+/)} Images</h2>
       <ul>
-        <Galleryitem data={props.data} subject={props.subject} />
+        <Galleryitem data={props.data} subject={props.subject} evaluate={props.evaluate} counter={props.counter} />
       </ul>
     </div>
   );
