@@ -3,7 +3,6 @@ import React from 'react';
 const Galleryitem = (props) => {
   const imageItems = [];
   props.evaluate();
-  console.log(props.counter);
   [props.data][0].map((image) => {
     return (
       imageItems.push(

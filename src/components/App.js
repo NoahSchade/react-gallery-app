@@ -32,12 +32,8 @@ export default class extends Component {
     this.searching();
   }
 
-  custom = () => {
-    console.log(window.location.pathname);
-  }
-
   catSearch = () => {
-    axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=cat&per_page=24&format=json&nojsoncallback=1`)
+    axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=cat&per_page=24&page=3&format=json&nojsoncallback=1`)
     .then(response => {
       this.setState({
         cats: response.data.photos.photo
