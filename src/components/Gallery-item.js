@@ -2,7 +2,7 @@ import React from 'react';
 
 const Galleryitem = (props) => {
   const imageItems = [];
-  props.evaluate();
+  props.incrementOne();
   [props.data][0].map((image) => {
     return (
       imageItems.push(
@@ -13,7 +13,7 @@ const Galleryitem = (props) => {
     )
   });
   
-  if(imageItems.length === 0 && props.counter >= 5){
+  if(props.data.length === 0 && props.counterOne >= 4){
     imageItems.push(
       // Not Found
       <li key="Not Found" className="not-found">

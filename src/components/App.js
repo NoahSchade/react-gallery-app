@@ -16,12 +16,13 @@ export default class extends Component {
 
   constructor() {
     super();
-    this.counter = 1;
+    this.counterOne = 0;
+    this.counterTwo = 0;
     this.state = {
       cats: [],
       dogs: [],
       laptops: [],
-      custom: []
+      custom: [],
     };
   }
 
@@ -80,21 +81,29 @@ export default class extends Component {
     })
   }
 
-  evaluate = () => {
-    this.counter++;
+  incrementOne = () => {
+    this.counterOne++;
+  }
+
+  incrementTwo = () => {
+    this.counterTwo++;
+  }
+
+  reset = () => {
+    this.counterTwo = 0;
   }
 
   render(){
     return(
       <BrowserRouter>
         <div className="container">
-          <Header searching={this.searching}/>
+          <Header searching={this.searching} incrementTwo={this.incrementTwo} />
           <Switch>
             <Route exact path="/" render={ () => <Redirect to="/cats"/> } />
-            <Route path="/dogs" render={ () => <Gallery data={this.state.dogs} subject="dog" evaluate={this.evaluate} counter={this.counter} /> } />
-            <Route path="/cats" render={ () => <Gallery data={this.state.cats} subject="cat" evaluate={this.evaluate} counter={this.counter} /> } />
-            <Route path="/laptops" render={ () => <Gallery data={this.state.laptops} subject="laptop" evaluate={this.evaluate} counter={this.counter} />} />
-            <Route path="/:topic" render={ () => <Gallery data={this.state.custom} subject={window.location.pathname} evaluate={this.evaluate} counter={this.counter} /> } />  
+            <Route path="/dogs" render={ () => <Gallery data={this.state.dogs} subject="dog" incrementOne={this.incrementOne} incrementTwo={this.incrementTwo} counterOne={this.counterOne} counterTwo={this.counterTwo} reset={this.reset} {...this.incrementTwo()} /> } />
+            <Route path="/cats" render={ () => <Gallery data={this.state.cats} subject="cat" incrementOne={this.incrementOne} incrementTwo={this.incrementTwo} counterOne={this.counterOne} counterTwo={this.counterTwo} reset={this.reset} {...this.incrementTwo()} /> } />
+            <Route path="/laptops" render={ () => <Gallery data={this.state.laptops} subject="laptop" incrementOne={this.incrementOne} incrementTwo={this.incrementTwo} counterOne={this.counterOne} counterTwo={this.counterTwo} reset={this.reset} {...this.incrementTwo()} />} />
+            <Route path="/:topic" render={ () => <Gallery data={this.state.custom} subject={window.location.pathname} incrementOne={this.incrementOne} incrementTwo={this.incrementTwo} counterOne={this.counterOne} counterTwo={this.counterTwo} reset={this.reset} {...this.incrementTwo()} /> } />  
           </Switch>
         </div>
       </BrowserRouter>
