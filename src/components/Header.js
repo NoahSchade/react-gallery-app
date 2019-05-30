@@ -6,7 +6,7 @@ const Header = (props) => {
   return (
     <div className="header-container">
       <Form searching={props.searching}/>
-      <Nav incrementTwo={props.incrementTwo} />
+      <Nav />
     </div>
   );
 }
