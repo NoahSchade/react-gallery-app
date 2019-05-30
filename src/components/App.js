@@ -29,6 +29,7 @@ export default class extends Component {
     this.dogSearch();
     this.laptopSearch();
     this.searching();
+    this.staticPath = window.location.pathname;
   }
 
   catSearch = () => {
@@ -90,7 +91,7 @@ export default class extends Component {
               <Route path="/dogs" render={ () => <Gallery data={this.state.dogs} subject="dog" /> } />
               <Route path="/cats" render={ () => <Gallery data={this.state.cats} subject="cat" /> } />
               <Route path="/laptops" render={ () => <Gallery data={this.state.laptops} subject="laptop" />} />
-              <Route path="/:topic" render={ () => <Gallery data={this.state.custom} subject={window.location.pathname} /> } />  
+              <Route path="/:topic" render={ () => <Gallery data={this.state.custom} subject={window.location.pathname} {...console.log(this.staticPath + " | " + window.location.pathname)} {...this.staticPath !== window.location.pathname ? console.log("change") : console.log("same")} {...this.staticPath !== window.location.pathname ? this.searching() : ""} {...this.staticPath = window.location.pathname} /> } />  
             </Switch> 
         </div>
       </BrowserRouter>
