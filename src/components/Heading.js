@@ -4,15 +4,21 @@ class Heading extends Component {
 
   constructor(props){
     super(props);
-    this.string = this.props.subject;
-    this.regex = /([a-zA-Z\s])+/;
-    this.replacement = '$1';
+
+    this.regexDash = /\//;
+    this.replacementDash = '';
+
+    this.regexSpace = /%20/g;
+    this.replacementSpace = ' ';
   }
 
   render(){
+    this.string = this.props.subject;
+    this.reformateDash = this.string.replace(this.regexDash, this.replacementDash);
+    this.reformateSpace = this.reformateDash.replace(this.regexSpace, this.replacementSpace);
+    this.reformatedString = this.reformateSpace;
     return(
-      
-      <h2>{this.string.replace(this.regex, this.replacement)} Images</h2>
+      <h2>{this.reformatedString} Images</h2>
     )
   }
 }
