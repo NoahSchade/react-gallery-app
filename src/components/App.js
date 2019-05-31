@@ -16,6 +16,13 @@ export default class extends Component {
 
   constructor() {
     super();
+
+    this.regexDash = /\//;
+    this.replacementDash = '';
+
+    this.regexSpace = /%20/g;
+    this.replacementSpace = '+';
+
     this.state = {
       cats: [],
       dogs: [],
@@ -69,7 +76,12 @@ export default class extends Component {
   }
 
   searching = () => {
-    axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=${window.location.pathname}&per_page=24&page=1&format=json&nojsoncallback=1`)
+    this.string = window.location.pathname;
+    this.reformatDash = this.string.replace(this.regexDash, this.replacementDash);
+    this.reformatSpace = this.reformatDash.replace(this.regexSpace, this.replacementSpace);
+    this.reformatedString = this.reformatSpace;
+    
+    axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=${this.reformatedString}&per_page=24&page=1&format=json&nojsoncallback=1`)
     .then(response => {
       this.setState({
         custom: response.data.photos.photo,
@@ -85,7 +97,6 @@ export default class extends Component {
       <BrowserRouter>
         <div className="container">
             <Header searching={this.searching} incrementTwo={this.incrementTwo} />
-            {console.log(window.location.pathname)}
             <Switch>
               <Route exact path="/" render={ () => <Redirect to="/cats"/> } />
               <Route path="/dogs" render={ () => <Gallery data={this.state.dogs} subject="dog" /> } />
