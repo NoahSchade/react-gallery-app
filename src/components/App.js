@@ -85,7 +85,7 @@ export default class extends Component {
       <BrowserRouter>
         <div className="container">
             <Header searching={this.searching} incrementTwo={this.incrementTwo} />
-          
+            {console.log(window.location.pathname)}
             <Switch>
               <Route exact path="/" render={ () => <Redirect to="/cats"/> } />
               <Route path="/dogs" render={ () => <Gallery data={this.state.dogs} subject="dog" /> } />
