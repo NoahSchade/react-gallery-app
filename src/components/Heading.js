@@ -14,9 +14,9 @@ class Heading extends Component {
 
   render(){
     this.string = this.props.subject;
-    this.reformateDash = this.string.replace(this.regexDash, this.replacementDash);
-    this.reformateSpace = this.reformateDash.replace(this.regexSpace, this.replacementSpace);
-    this.reformatedString = this.reformateSpace;
+    this.reformatDash = this.string.replace(this.regexDash, this.replacementDash);
+    this.reformatSpace = this.reformatDash.replace(this.regexSpace, this.replacementSpace);
+    this.reformatedString = this.reformatSpace;
     return(
       <h2>{this.reformatedString} Images</h2>
     )
