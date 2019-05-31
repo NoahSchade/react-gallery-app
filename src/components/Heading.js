@@ -18,7 +18,7 @@ class Heading extends Component {
     this.reformatSpace = this.reformatDash.replace(this.regexSpace, this.replacementSpace);
     this.reformatedString = this.reformatSpace;
     return(
-      <h2>{this.reformatedString} Images</h2>
+      <h2>{this.reformatedString} Photos</h2>
     )
   }
 }
