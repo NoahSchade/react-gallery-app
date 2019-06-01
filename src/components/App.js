@@ -17,7 +17,7 @@ export default class extends Component {
   constructor() {
     super();
 
-    this.regexDash = /\//g;
+    this.regexDash = /\/|\\/g;
     this.replacementDash = '';
 
     this.regexPercent = /%20/g;

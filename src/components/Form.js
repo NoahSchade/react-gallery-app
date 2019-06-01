@@ -5,7 +5,7 @@ class Form extends Component {
 
   constructor(props) {
     super(props);
-    this.regexDash = /\//g;
+    this.regexDash = /\/|\\/g;
     this.replacementDash = '';
     this.state = {
       value: ''
