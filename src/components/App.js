@@ -20,8 +20,9 @@ export default class extends Component {
     this.regexDash = /\//;
     this.replacementDash = '';
 
-    this.regexSpace = /%20/g;
-    this.replacementSpace = '+';
+    this.regexPercent = /%20/g;
+    this.replacementCross = '+';
+    this.replacementSpace = ' ';
 
     this.state = {
       cats: [],
@@ -78,10 +79,10 @@ export default class extends Component {
   searching = () => {
     this.string = window.location.pathname;
     this.reformatDash = this.string.replace(this.regexDash, this.replacementDash);
-    this.reformatSpace = this.reformatDash.replace(this.regexSpace, this.replacementSpace);
-    this.reformatedString = this.reformatSpace;
+    this.reformatSpace = this.reformatDash.replace(this.regexPercent, this.replacementCross);
+    this.reformattedString = this.reformatSpace;
     
-    axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=${this.reformatedString}&per_page=24&page=1&format=json&nojsoncallback=1`)
+    axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=${this.reformattedString}&per_page=24&page=1&format=json&nojsoncallback=1`)
     .then(response => {
       this.setState({
         custom: response.data.photos.photo,
@@ -93,6 +94,10 @@ export default class extends Component {
   }
 
   render(){
+    this.string = window.location.pathname;
+    this.reformatDash = this.string.replace(this.regexDash, this.replacementDash);
+    this.reformatSpace = this.reformatDash.replace(this.regexPercent, this.replacementSpace);
+    this.reformattedSubject = this.reformatSpace;
     return(
       <BrowserRouter>
         <div className="container">
@@ -102,7 +107,7 @@ export default class extends Component {
               <Route path="/dogs" render={ () => <Gallery data={this.state.dogs} subject="dog" /> } />
               <Route path="/cats" render={ () => <Gallery data={this.state.cats} subject="cat" /> } />
               <Route path="/laptops" render={ () => <Gallery data={this.state.laptops} subject="laptop" />} />
-              <Route path="/:topic" render={ () => <Gallery data={this.state.custom} subject={window.location.pathname} {...this.staticPath !== window.location.pathname ? this.searching() : ""} {...this.staticPath = window.location.pathname} /> } />  
+              <Route path="/:topic" render={ () => <Gallery data={this.state.custom} subject={this.reformattedSubject} {...this.staticPath !== window.location.pathname ? this.searching() : ""} {...this.staticPath = window.location.pathname} /> } />  
             </Switch> 
         </div>
       </BrowserRouter>

@@ -14,7 +14,7 @@ class Galleryitem extends Component {
         return (
           imageItems.push(
             <li key={image.id}>
-              <img src={`https://farm${image.farm}.staticflickr.com/${image.server}/${image.id}_${image.secret}.jpg`} alt={props.subject.match(/\w+/)} />
+              <img src={`https://farm${image.farm}.staticflickr.com/${image.server}/${image.id}_${image.secret}.jpg`} alt={props.subject} />
             </li>
           )
         )
