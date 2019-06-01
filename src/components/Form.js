@@ -5,6 +5,8 @@ class Form extends Component {
 
   constructor(props) {
     super(props);
+    this.regexDash = /\//g;
+    this.replacementDash = '';
     this.state = {
       value: ''
     };
@@ -20,7 +22,8 @@ class Form extends Component {
   handleSubmit(event) {
     event.preventDefault();
     let path = this.state.value;
-    this.props.history.push(path);
+    this.pathReformatted = path.replace(this.regexDash, this.replacementDash);
+    this.props.history.push(this.pathReformatted);
     this.props.searching(this.state.value);
   }
 
