@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  BrowserRouter,
+  HashRouter,
   Route,
   Redirect,
   Switch
@@ -17,7 +17,7 @@ export default class extends Component {
   constructor() {
     super();
 
-    this.regexDash = /\/|\\/g;
+    this.regexDash = /\/|\\|#/g;
     this.replacementDash = '';
 
     this.regexPercent = /%20/g;
@@ -38,7 +38,7 @@ export default class extends Component {
     this.dogSearch();
     this.laptopSearch();
     this.searching();
-    this.staticPath = window.location.pathname;
+    this.staticPath = window.location.hash;
   }
 
   catSearch = () => {
@@ -78,7 +78,7 @@ export default class extends Component {
   }
 
   searching = () => {
-    this.string = window.location.pathname;
+    this.string = window.location.hash;
     this.reformatDash = this.string.replace(this.regexDash, this.replacementDash);
     this.reformatSpace = this.reformatDash.replace(this.regexPercent, this.replacementCross);
     this.reformattedString = this.reformatSpace;
@@ -95,17 +95,13 @@ export default class extends Component {
     })
   }
 
-  setStaticPath = () => {
-    this.staticPath = window.location.pathname;
-  }
-
   render(){
-    this.string = window.location.pathname;
+    this.string = window.location.hash;
     this.reformatDash = this.string.replace(this.regexDash, this.replacementDash);
     this.reformatSpace = this.reformatDash.replace(this.regexPercent, this.replacementSpace);
     this.reformattedSubject = this.reformatSpace;
     return(
-      <BrowserRouter>
+      <HashRouter>
         <div className="container">
             <Header searching={this.searching} />
             <Switch>
@@ -113,10 +109,10 @@ export default class extends Component {
               <Route path="/dogs" render={ () => <Gallery data={this.state.dogs} total={this.state.total} subject="dog" /> } />
               <Route path="/cats" render={ () => <Gallery data={this.state.cats} total={this.state.total} subject="cat" /> } />
               <Route path="/laptops" render={ () => <Gallery data={this.state.laptops} total={this.state.total} subject="laptop" />} />
-              <Route path="/:search" render={ () => { return this.staticPath === window.location.pathname ? <Gallery {...console.log(this.reformattedSubject)} data={this.state.custom} total={this.state.total} subject={this.reformattedSubject} /> : this.setStaticPath()} } />  
+              <Route path="/:search" render={ () => <Gallery data={this.state.custom} total={this.state.total} subject={this.reformattedSubject} /> } />  
             </Switch> 
         </div>
-      </BrowserRouter>
+      </HashRouter>
     )
   }
 }
