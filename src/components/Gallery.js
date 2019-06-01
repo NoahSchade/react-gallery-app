@@ -5,9 +5,9 @@ import Heading from './Heading';
 const Gallery = (props) => {
   return (
     <div className="photo-container">
-      <Heading subject={props.subject} />
+    {props.total > 0 || props.subject === "cat" || props.subject === "dog" || props.subject === "laptop" ? <Heading subject={props.subject} /> : ''}
       <ul>
-        <Galleryitem data={props.data} subject={props.subject} />
+        <Galleryitem data={props.data} total={props.total} subject={props.subject} />
       </ul>
     </div>
   );

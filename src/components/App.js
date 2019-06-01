@@ -29,6 +29,7 @@ export default class extends Component {
       dogs: [],
       laptops: [],
       custom: [],
+      total: []
     };
   }
 
@@ -44,7 +45,7 @@ export default class extends Component {
     axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=cat&per_page=24&page=3&format=json&nojsoncallback=1`)
     .then(response => {
       this.setState({
-        cats: response.data.photos.photo
+        cats: response.data.photos.photo,
       });
     })
     .catch(error => {
@@ -56,7 +57,7 @@ export default class extends Component {
     axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=dog&per_page=24&page=3&format=json&nojsoncallback=1`)
     .then(response => {
       this.setState({
-        dogs: response.data.photos.photo
+        dogs: response.data.photos.photo,
       });
     })
     .catch(error => {
@@ -68,7 +69,7 @@ export default class extends Component {
     axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=laptop&per_page=24&page=1&format=json&nojsoncallback=1`)
     .then(response => {
       this.setState({
-        laptops: response.data.photos.photo
+        laptops: response.data.photos.photo,
       });
     })
     .catch(error => {
@@ -86,6 +87,7 @@ export default class extends Component {
     .then(response => {
       this.setState({
         custom: response.data.photos.photo,
+        total:  Number(response.data.photos.total)
       });
     })
     .catch(error => {
@@ -104,10 +106,10 @@ export default class extends Component {
             <Header searching={this.searching} incrementTwo={this.incrementTwo} />
             <Switch>
               <Route exact path="/" render={ () => <Redirect to="/cats"/> } />
-              <Route path="/dogs" render={ () => <Gallery data={this.state.dogs} subject="dog" /> } />
-              <Route path="/cats" render={ () => <Gallery data={this.state.cats} subject="cat" /> } />
-              <Route path="/laptops" render={ () => <Gallery data={this.state.laptops} subject="laptop" />} />
-              <Route path="/:topic" render={ () => <Gallery data={this.state.custom} subject={this.reformattedSubject} {...this.staticPath !== window.location.pathname ? this.searching() : ""} {...this.staticPath = window.location.pathname} /> } />  
+              <Route path="/dogs" render={ () => <Gallery data={this.state.dogs} total={this.state.total} subject="dog" /> } />
+              <Route path="/cats" render={ () => <Gallery data={this.state.cats} total={this.state.total} subject="cat" /> } />
+              <Route path="/laptops" render={ () => <Gallery data={this.state.laptops} total={this.state.total} subject="laptop" />} />
+              <Route path="/:search" render={ () => <Gallery data={this.state.custom} total={this.state.total} subject={this.reformattedSubject} {...this.staticPath !== window.location.pathname ? this.searching() : ""} {...this.staticPath = window.location.pathname} /> } />  
             </Switch> 
         </div>
       </BrowserRouter>
