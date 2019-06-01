@@ -95,6 +95,10 @@ export default class extends Component {
     })
   }
 
+  setStaticPath = () => {
+    this.staticPath = window.location.pathname;
+  }
+
   render(){
     this.string = window.location.pathname;
     this.reformatDash = this.string.replace(this.regexDash, this.replacementDash);
@@ -109,7 +113,7 @@ export default class extends Component {
               <Route path="/dogs" render={ () => <Gallery data={this.state.dogs} total={this.state.total} subject="dog" /> } />
               <Route path="/cats" render={ () => <Gallery data={this.state.cats} total={this.state.total} subject="cat" /> } />
               <Route path="/laptops" render={ () => <Gallery data={this.state.laptops} total={this.state.total} subject="laptop" />} />
-              <Route path="/:search" render={ () => <Gallery data={this.state.custom} total={this.state.total} subject={this.reformattedSubject} {...this.staticPath !== window.location.pathname ? this.searching() : ""} {...this.staticPath = window.location.pathname} /> } />  
+              <Route path="/:search" render={ () => { return this.staticPath === window.location.pathname ? <Gallery {...console.log(this.reformattedSubject)} data={this.state.custom} total={this.state.total} subject={this.reformattedSubject} /> : this.setStaticPath()} } />  
             </Switch> 
         </div>
       </BrowserRouter>
