@@ -95,11 +95,14 @@ export default class extends Component {
     })
   }
 
-  render(){
-    this.string = window.location.hash;
+  reformatSubject = () => {
+    this.string = window.location.hash; 
     this.reformatDash = this.string.replace(this.regexDash, this.replacementDash);
     this.reformatSpace = this.reformatDash.replace(this.regexPercent, this.replacementSpace);
     this.reformattedSubject = this.reformatSpace;
+  }
+
+  render(){
     return(
       <HashRouter>
         <div className="container">
@@ -109,7 +112,7 @@ export default class extends Component {
               <Route path="/dogs" render={ () => <Gallery data={this.state.dogs} total={this.state.total} subject="dog" /> } />
               <Route path="/cats" render={ () => <Gallery data={this.state.cats} total={this.state.total} subject="cat" /> } />
               <Route path="/laptops" render={ () => <Gallery data={this.state.laptops} total={this.state.total} subject="laptop" />} />
-              <Route path="/:search" render={ () => <Gallery data={this.state.custom} total={this.state.total} subject={this.reformattedSubject} /> } />  
+              <Route path="/:search" render={ () => <Gallery data={this.state.custom} total={this.state.total} {...this.reformatSubject()} subject={this.reformattedSubject} /> } />  
             </Switch> 
         </div>
       </HashRouter>
