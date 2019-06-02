@@ -5,9 +5,11 @@ const Galleryitem = (props) => {
   [props.data][0].map((image) => {
     return (
       imageItems.push(
+        image.farm !== 0 ? (
         <li key={image.id}>
           <img src={`https://farm${image.farm}.staticflickr.com/${image.server}/${image.id}_${image.secret}.jpg`} alt={props.subject} />
         </li>
+        ) : '' 
       )
     )
   });
