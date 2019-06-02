@@ -17,6 +17,8 @@ export default class extends Component {
   constructor() {
     super();
 
+    this.counter = 0;
+
     this.regexDash = /\/|\\|#/g;
     this.replacementDash = '';
 
@@ -31,6 +33,8 @@ export default class extends Component {
       custom: [],
       total: []
     };
+
+    window.addEventListener("hashchange", e => this.searching());
   }
 
   componentDidMount() {
@@ -82,7 +86,6 @@ export default class extends Component {
     this.reformatDash = this.string.replace(this.regexDash, this.replacementDash);
     this.reformatSpace = this.reformatDash.replace(this.regexPercent, this.replacementCross);
     this.reformattedString = this.reformatSpace;
-    
     axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=${this.reformattedString}&per_page=24&page=1&format=json&nojsoncallback=1`)
     .then(response => {
       this.setState({
@@ -102,6 +105,14 @@ export default class extends Component {
     this.reformattedSubject = this.reformatSpace;
   }
 
+  reset = () => {
+    this.counter = 0;
+  }
+
+  increment = () => {
+    this.counter++;
+  }
+
   render(){
     return(
       <HashRouter>
@@ -112,7 +123,7 @@ export default class extends Component {
               <Route path="/dogs" render={ () => <Gallery data={this.state.dogs} total={this.state.total} subject="dog" /> } />
               <Route path="/cats" render={ () => <Gallery data={this.state.cats} total={this.state.total} subject="cat" /> } />
               <Route path="/laptops" render={ () => <Gallery data={this.state.laptops} total={this.state.total} subject="laptop" />} />
-              <Route path="/:search" render={ () => <Gallery data={this.state.custom} total={this.state.total} {...this.reformatSubject()} subject={this.reformattedSubject} /> } />  
+              <Route path="/:search" render={ () => this.counter < 1 ? <Gallery data={this.state.custom} total={this.state.total} {...this.reformatSubject()} subject={this.reformattedSubject} {...this.increment()} /> : this.reset() } />  
             </Switch> 
         </div>
       </HashRouter>

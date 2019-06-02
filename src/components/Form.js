@@ -24,7 +24,6 @@ class Form extends Component {
     let path = this.state.value;
     this.pathReformatted = path.replace(this.regexDash, this.replacementDash);
     this.props.history.push(this.pathReformatted);
-    this.props.searching();
   }
 
   render() {
