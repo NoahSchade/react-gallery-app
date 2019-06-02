@@ -120,9 +120,9 @@ export default class extends Component {
             <Header searching={this.searching} />
             <Switch>
               <Route exact path="/" render={ () => <Redirect to="/cats"/> } />
-              <Route path="dogs" render={ () => <Gallery data={this.state.dogs} total={this.state.total} subject="Dog" {...this.increment()} /> } />
-              <Route path="cats" render={ () => <Gallery data={this.state.cats} total={this.state.total} subject="Cat" {...this.increment()} /> } />
-              <Route path="laptops" render={ () => <Gallery data={this.state.laptops} total={this.state.total} subject="Laptop" {...this.increment()} />} />
+              <Route path="/dogs" render={ () => <Gallery data={this.state.dogs} total={this.state.total} subject="Dog" {...this.increment()} /> } />
+              <Route path="/cats" render={ () => <Gallery data={this.state.cats} total={this.state.total} subject="Cat" {...this.increment()} /> } />
+              <Route path="/laptops" render={ () => <Gallery data={this.state.laptops} total={this.state.total} subject="Laptop" {...this.increment()} />} />
               <Route path="/:search" render={ () => this.counter < 1 ? <Gallery data={this.state.custom} total={this.state.total} {...this.reformatSubject()} subject={this.reformattedSubject} {...this.increment()} /> : this.reset() } />  
             </Switch> 
         </div>
