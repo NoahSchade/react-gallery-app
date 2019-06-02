@@ -102,7 +102,7 @@ export default class extends Component {
     this.string = window.location.hash; 
     this.reformatDash = this.string.replace(this.regexDash, this.replacementDash);
     this.reformatSpace = this.reformatDash.replace(this.regexPercent, this.replacementSpace);
-    this.reformattedSubject = this.reformatSpace;
+    this.reformattedSubject = this.reformatSpace.toLowerCase().split(' ').map((s) => s.charAt(0).toUpperCase() + s.substring(1)).join(' ');
   }
 
   reset = () => {
@@ -120,9 +120,9 @@ export default class extends Component {
             <Header searching={this.searching} />
             <Switch>
               <Route exact path="/" render={ () => <Redirect to="/cats"/> } />
-              <Route path="/(dog|dogs)/" render={ () => <Gallery data={this.state.dogs} total={this.state.total} subject="dog" {...this.increment()} /> } />
-              <Route path="/(cat|cats)/" render={ () => <Gallery data={this.state.cats} total={this.state.total} subject="cat" {...this.increment()} /> } />
-              <Route path="/(laptop|laptops)/" render={ () => <Gallery data={this.state.laptops} total={this.state.total} subject="laptop" {...this.increment()} />} />
+              <Route path="/(dog|dogs)/" render={ () => <Gallery data={this.state.dogs} total={this.state.total} subject="Dog" {...this.increment()} /> } />
+              <Route path="/(cat|cats)/" render={ () => <Gallery data={this.state.cats} total={this.state.total} subject="Cat" {...this.increment()} /> } />
+              <Route path="/(laptop|laptops)/" render={ () => <Gallery data={this.state.laptops} total={this.state.total} subject="Laptop" {...this.increment()} />} />
               <Route path="/:search" render={ () => this.counter < 1 ? <Gallery data={this.state.custom} total={this.state.total} {...this.reformatSubject()} subject={this.reformattedSubject} {...this.increment()} /> : this.reset() } />  
             </Switch> 
         </div>
