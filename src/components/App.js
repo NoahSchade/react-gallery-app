@@ -10,14 +10,13 @@ import '../css/style.css';
 import apiKey from '../other/config.js';
 import Header from './Header';
 import Gallery from './Gallery';
+import NotFound from './NotFound';
 
 
 export default class extends Component {
 
   constructor() {
     super();
-
-    this.counter = 0;
 
     this.regexPercent = /%20/g;
     this.replacementCross = '+';
@@ -26,12 +25,14 @@ export default class extends Component {
     this.regexSpecial = /[^a-zA-Z0-9-' '-+]/g;
     this.replacementBlank = '';
 
+    this.display = false;
+
     this.state = {
       cats: [],
       dogs: [],
       laptops: [],
       custom: [],
-      total: []
+      total: [],
     };
 
     window.addEventListener("hashchange", e => this.searching());
@@ -90,8 +91,10 @@ export default class extends Component {
     .then(response => {
       this.setState({
         custom: response.data.photos.photo,
-        total:  Number(response.data.photos.total)
+        total:  Number(response.data.photos.total),
+        display: this.display = true
       });
+      
     })
     .catch(error => {
       console.log('Error fetching and parsing data', error);
@@ -105,14 +108,6 @@ export default class extends Component {
     this.reformattedSubject = this.reformatSpecial;
   }
 
-  reset = () => {
-    this.counter = 0;
-  }
-
-  increment = () => {
-    this.counter++;
-  }
-
   render(){
     return(
       <HashRouter>
@@ -120,10 +115,11 @@ export default class extends Component {
             <Header searching={this.searching} />
             <Switch>
               <Route exact path="/" render={ () => <Redirect to="/cats"/> } />
-              <Route path="/dogs" render={ () => <Gallery data={this.state.dogs} total={this.state.total} subject="Dog" {...this.increment()} /> } />
-              <Route path="/cats" render={ () => <Gallery data={this.state.cats} total={this.state.total} subject="Cat" {...this.increment()} /> } />
-              <Route path="/laptops" render={ () => <Gallery data={this.state.laptops} total={this.state.total} subject="Laptop" {...this.increment()} />} />
-              <Route path="/:search" render={ () => this.counter < 1 ? <Gallery data={this.state.custom} total={this.state.total} {...this.reformatSubject()} subject={this.reformattedSubject} {...this.increment()} /> : this.reset() } />  
+              <Route exact path="/dogs" render={ () => <Gallery data={this.state.dogs} total={this.state.total} subject="Dog" {...this.display = false} /> } />
+              <Route exact path="/cats" render={ () => <Gallery data={this.state.cats} total={this.state.total} subject="Cat" {...this.display = false} /> } />
+              <Route exact path="/laptops" render={ () => <Gallery data={this.state.laptops} total={this.state.total} subject="Laptop" {...this.display = false} /> } />
+              <Route exact path="/:search" render={ () => this.display ? <Gallery data={this.state.custom} total={this.state.total} {...this.reformatSubject()} subject={this.reformattedSubject} {...this.display = false} /> : '' } />
+              <Route component={NotFound} />
             </Switch> 
         </div>
       </HashRouter>
