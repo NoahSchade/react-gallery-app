@@ -5,8 +5,13 @@ class Form extends Component {
 
   constructor(props) {
     super(props);
-    this.regexDash = /\/|\\/g;
-    this.replacementDash = '';
+
+    this.regexPercent = /%20/g;
+    this.replacementSpace = ' ';
+
+    this.regexSpecial = /[^a-zA-Z0-9-' ']/g;
+    this.replacementBlank = '';
+
     this.state = {
       value: ''
     };
@@ -22,8 +27,15 @@ class Form extends Component {
   handleSubmit(event) {
     event.preventDefault();
     let path = this.state.value;
-    this.pathReformatted = path.replace(this.regexDash, this.replacementDash);
-    this.props.history.push(this.pathReformatted);
+    this.pathReformatPercent = path.replace(this.regexPercent, this.replacementSpace);
+    this.pathReformatted = this.pathReformatPercent.replace(this.regexSpecial, this.replacementBlank);
+    
+    this.hashPercent = window.location.hash.replace(this.regexPercent, this.replacementSpace);
+    this.hashPath = this.hashPercent.replace(this.regexSpecial, this.replacementBlank);
+
+    if(this.pathReformatted !== this.hashPath){
+      this.props.history.push(this.pathReformatted);
+    }
   }
 
   render() {

@@ -19,12 +19,12 @@ export default class extends Component {
 
     this.counter = 0;
 
-    this.regexDash = /\/|\\|#/g;
-    this.replacementDash = '';
-
     this.regexPercent = /%20/g;
     this.replacementCross = '+';
     this.replacementSpace = ' ';
+
+    this.regexSpecial = /[^a-zA-Z0-9-' '-+]/g;
+    this.replacementBlank = '';
 
     this.state = {
       cats: [],
@@ -83,9 +83,9 @@ export default class extends Component {
 
   searching = () => {
     this.string = window.location.hash;
-    this.reformatDash = this.string.replace(this.regexDash, this.replacementDash);
-    this.reformatSpace = this.reformatDash.replace(this.regexPercent, this.replacementCross);
-    this.reformattedString = this.reformatSpace;
+    this.reformatSpace = this.string.replace(this.regexPercent, this.replacementCross);
+    this.reformatSpecial = this.reformatSpace.replace(this.regexSpecial, this.replacementBlank);
+    this.reformattedString = this.reformatSpecial;
     axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=${this.reformattedString}&per_page=24&page=1&format=json&nojsoncallback=1`)
     .then(response => {
       this.setState({
@@ -99,10 +99,10 @@ export default class extends Component {
   }
 
   reformatSubject = () => {
-    this.string = window.location.hash; 
-    this.reformatDash = this.string.replace(this.regexDash, this.replacementDash);
-    this.reformatSpace = this.reformatDash.replace(this.regexPercent, this.replacementSpace);
-    this.reformattedSubject = this.reformatSpace.toLowerCase().split(' ').map((s) => s.charAt(0).toUpperCase() + s.substring(1)).join(' ');
+    this.string = window.location.hash;
+    this.reformatSpace = this.string.replace(this.regexPercent, this.replacementSpace);
+    this.reformatSpecial = this.reformatSpace.replace(this.regexSpecial, this.replacementBlank);
+    this.reformattedSubject = this.reformatSpecial;
   }
 
   reset = () => {
