@@ -1,19 +1,47 @@
 import React, { Component } from 'react';
+import loading from './loading.gif';
 
 class Galleryitem extends Component {
+
+  constructor() {
+    super();
+
+    this.state = {
+      ready: false,
+    };
+  }
+
+  handleOnLoad = () => {
+    this.setState({
+      ready: true
+    });
+  }
+
   render(){
     const imageItems = [];
     [this.props.data][0].map((image) => {
-      const imageStyle = {
-        backgroundImage: `url(https://farm${image.farm}.staticflickr.com/${image.server}/${image.id}_${image.secret}.jpg)`,
-        backgroundSize: 'cover',
-        height: `100%`
-      }
       return (
         imageItems.push(
           image.farm !== 0 ? (
           <li key={image.id}>
-            <div style={imageStyle} alt={this.props.subject} />
+          
+            <img 
+              style={{
+                display: this.state.ready ? 'block' : 'none'
+              }}
+              onLoad={this.handleOnLoad} 
+              src={`https://farm${image.farm}.staticflickr.com/${image.server}/${image.id}_${image.secret}.jpg`} 
+              alt={this.props.subject} 
+            />
+
+            <img 
+              style={{
+                display: this.state.ready ? 'none' : 'block'
+              }}
+              src={loading} 
+              alt="" 
+            />
+
           </li>
           ) : '' 
         )
