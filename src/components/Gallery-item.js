@@ -15,7 +15,6 @@ class Galleryitem extends Component {
     this.setState({
       ready: true
     });
-    console.log("ready: true")
   }
 
   render(){
