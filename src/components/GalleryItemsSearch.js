@@ -6,6 +6,8 @@ class GalleryItemsSearch extends Component {
   constructor(props) {
     super(props);
 
+    this.notFoundCounter = 0;
+
     this.imageItems = [];
 
     [this.props.data][0].map((image) => {
@@ -46,22 +48,35 @@ class GalleryItemsSearch extends Component {
   render(){
 
     const listPhotos = this.state.images.map(image => (
-      image.farm !== 0 ? (
-        <li key={image.id}>
-          <img src={image.src} alt={this.props.subject} />
-        </li>
-        ) : '' 
+      <li key={image.id}>
+        <img src={image.src} alt={this.props.subject} />
+      </li>
     ));
+    
 
+    if(this.props.total !== 0) {
+      this.notFoundCounter = 0;
+    } else {
+      this.notFoundCounter++;
+    }
+    
     if(this.props.total === 0 && this.props.subject !== "cat" && this.props.subject !== "dog" && this.props.subject !== "laptop"){
-      this.imageItems.push(
-        // Not Found
-        <li key="Not Found" className="not-found">
-          <h3>No Results Found</h3>
-          <p>Your search did not return any results. Please try again.</p>
-        </li>
-      )
+      if(this.notFoundCounter === 1){
+        this.imageItems.push(
+          // Not Found
+          <li key="Not Found" className="not-found">
+            <h3>No Results Found</h3>
+            <p>Your search did not return any results. Please try again.</p>
+          </li>
+        )
+      } else if(this.notFoundCounter > 1) {
+          this.imageItems.push(
+           ''
+          )
+      }
+
       const listPhotos = this.imageItems;
+
       return listPhotos;
     };
   
