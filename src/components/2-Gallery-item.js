@@ -3,23 +3,24 @@ import loading from './loading.gif';
 
 class Galleryitem extends Component {
 
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
 
-    this.imageItems = [];
-
-    [this.props.data][0].map((image) => {
-      return (
-        this.imageItems.push(
-          {src: `https://farm${image.farm}.staticflickr.com/${image.server}/${image.id}_${image.secret}.jpg`}
-        )
-      )
-    });
-
-    console.log(this.imageItems);
+    this.imagesProp = [{
+      id: 1,
+      src: "https://images.pexels.com/photos/248797/pexels-photo-248797.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
+    },
+    {
+      id: 2,
+      src: "https://images.pexels.com/photos/459225/pexels-photo-459225.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
+    },
+    {
+      id: 3,
+      src: "https://images.pexels.com/photos/814499/pexels-photo-814499.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
+    }];
 
     this.state = {
-      images: this.imageItems.map(image => ({
+      images: this.imagesProp.map(image => ({
         ...image,
         src: loading
       }))
@@ -29,7 +30,7 @@ class Galleryitem extends Component {
 
   componentDidMount() {
     this.state.images.forEach((image, index) => {
-      const {src} = this.imageItems[index] // get image primary src
+      const {src} = this.imagesProp[index] // get image primary src
       const primaryImage = new Image() // create an image object programmatically
       primaryImage.onload = () => { // use arrow function here
         console.log(`image #${index + 1} is loaded!`)
@@ -48,7 +49,7 @@ class Galleryitem extends Component {
     const listWork = this.state.images.map(image => (
       <li key={image.id}>
         <div>
-          <img src={image.src} alt={this.props.subject} />
+          <img src={image.src} alt='' />
         </div>
       </li>
     ));
