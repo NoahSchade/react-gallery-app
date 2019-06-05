@@ -41,11 +41,12 @@ export default class extends Component {
   }
 
   setBooleanListener(){
-    console.log(this.activate);
     this.activate++;
     this.display = true;
-    this.forceUpdate();
-    this.forceUpdate();
+    if(this.activate <= 1){
+      this.forceUpdate();
+      this.forceUpdate();
+    }
   }
 
   componentDidMount() {
