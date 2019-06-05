@@ -11,12 +11,10 @@ class Galleryitem extends Component {
     [this.props.data][0].map((image) => {
       return (
         this.imageItems.push(
-          {src: `https://farm${image.farm}.staticflickr.com/${image.server}/${image.id}_${image.secret}.jpg`}
+          {id: image.id, src: `https://farm${image.farm}.staticflickr.com/${image.server}/${image.id}_${image.secret}.jpg`}
         )
       )
     });
-
-    console.log(this.imageItems);
 
     this.state = {
       images: this.imageItems.map(image => ({
@@ -25,7 +23,6 @@ class Galleryitem extends Component {
       }))
     }
   }
-
 
   componentDidMount() {
     this.state.images.forEach((image, index) => {
