@@ -11,15 +11,21 @@ class GalleryItemsSearch extends Component {
     this.imageItems = [];
 
     [this.props.data][0].map((image) => {
-      return (
-        this.imageItems.push(
-          {
-            id: image.id,
-            src: `https://farm${image.farm}.staticflickr.com/${image.server}/${image.id}_${image.secret}.jpg`, 
-            farm: image.farm
-          }
+      if(image.farm !== 0){
+        return (
+          this.imageItems.push(
+            {
+              id: image.id,
+              src: `https://farm${image.farm}.staticflickr.com/${image.server}/${image.id}_${image.secret}.jpg`, 
+              farm: image.farm
+            }
+          )
         )
-      )
+      } else {
+        return (
+          null
+        )
+      }
     });
 
     this.state = {
