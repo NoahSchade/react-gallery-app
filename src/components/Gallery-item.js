@@ -11,7 +11,11 @@ class Galleryitem extends Component {
     [this.props.data][0].map((image) => {
       return (
         this.imageItems.push(
-          {id: image.id, src: `https://farm${image.farm}.staticflickr.com/${image.server}/${image.id}_${image.secret}.jpg`}
+          {
+            id: image.id,
+            src: `https://farm${image.farm}.staticflickr.com/${image.server}/${image.id}_${image.secret}.jpg`, 
+            farm: image.farm
+          }
         )
       )
     });
@@ -42,15 +46,27 @@ class Galleryitem extends Component {
 
   render(){
 
-    const listWork = this.state.images.map(image => (
-      <li key={image.id}>
-        <div>
+    const listPhotos = this.state.images.map(image => (
+      image.farm !== 0 ? (
+        <li key={image.id}>
           <img src={image.src} alt={this.props.subject} />
-        </div>
-      </li>
+        </li>
+        ) : '' 
     ));
+
+    if(this.props.total === 0 && this.props.subject !== "cat" && this.props.subject !== "dog" && this.props.subject !== "laptop"){
+      this.imageItems.push(
+        // Not Found
+        <li key="Not Found" className="not-found">
+          <h3>No Results Found</h3>
+          <p>Your search did not return any results. Please try again.</p>
+        </li>
+      )
+      const listPhotos = this.imageItems;
+      return listPhotos;
+    };
   
-    return listWork;
+    return listPhotos;
   }
 }
 
