@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import loading from './loading.gif';
 
-class Galleryitem extends Component {
+class GalleryItemsSearch extends Component {
 
   constructor(props) {
     super(props);
@@ -33,7 +33,6 @@ class Galleryitem extends Component {
       const {src} = this.imageItems[index] // get image primary src
       const primaryImage = new Image() // create an image object programmatically
       primaryImage.onload = () => { // use arrow function here
-        console.log(`image #${index + 1} is loaded!`)
         const images = [...this.state.images] // copy images array from state
         images[index].src = src // adjust loaded image src
         this.setState({
@@ -70,4 +69,4 @@ class Galleryitem extends Component {
   }
 }
 
-export default Galleryitem;
+export default GalleryItemsSearch;
