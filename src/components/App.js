@@ -26,16 +26,26 @@ export default class extends Component {
     this.replacementBlank = '';
 
     this.display = false;
+    this.activate = 0;
 
     this.state = {
       cats: [],
       dogs: [],
       laptops: [],
       custom: [],
-      total: [],
+      total: []
     };
 
     window.addEventListener("hashchange", e => this.searching());
+    window.addEventListener("hashchange", e => this.setBooleanListener());
+  }
+
+  setBooleanListener(){
+    console.log(this.activate);
+    this.activate++;
+    this.display = true;
+    this.forceUpdate();
+    this.forceUpdate();
   }
 
   componentDidMount() {
@@ -50,7 +60,7 @@ export default class extends Component {
     axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=cat&per_page=24&page=3&format=json&nojsoncallback=1`)
     .then(response => {
       this.setState({
-        cats: response.data.photos.photo,
+        cats: response.data.photos.photo
       });
     })
     .catch(error => {
@@ -62,7 +72,7 @@ export default class extends Component {
     axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=dog&per_page=24&page=3&format=json&nojsoncallback=1`)
     .then(response => {
       this.setState({
-        dogs: response.data.photos.photo,
+        dogs: response.data.photos.photo
       });
     })
     .catch(error => {
@@ -74,7 +84,7 @@ export default class extends Component {
     axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=laptop&per_page=24&page=1&format=json&nojsoncallback=1`)
     .then(response => {
       this.setState({
-        laptops: response.data.photos.photo,
+        laptops: response.data.photos.photo
       });
     })
     .catch(error => {
@@ -118,7 +128,7 @@ export default class extends Component {
               <Route exact path="/dogs" render={ () => <Gallery data={this.state.dogs} total={this.state.total} subject="Dog" {...this.display = false} /> } />
               <Route exact path="/cats" render={ () => <Gallery data={this.state.cats} total={this.state.total} subject="Cat" {...this.display = false} /> } />
               <Route exact path="/laptops" render={ () => <Gallery data={this.state.laptops} total={this.state.total} subject="Laptop" {...this.display = false} /> } />
-              <Route exact path="/:search" render={ () => this.display ? <Gallery data={this.state.custom} total={this.state.total} {...this.reformatSubject()} subject={this.reformattedSubject} {...this.display = false} /> : '' } />
+              <Route exact path="/:search" render={ () => this.display ? <Gallery data={this.state.custom} total={this.state.total} {...this.reformatSubject()} subject={this.reformattedSubject} {...this.activate > 0 ? this.display = false : this.display = true } /> : '' } />
               <Route component={NotFound} />
             </Switch> 
         </div>
