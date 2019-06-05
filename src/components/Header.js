@@ -5,7 +5,7 @@ import Nav from './Nav';
 const Header = (props) => {
   return (
     <div className="header-container">
-      <Form searching={props.searching}/>
+      <Form searching={props.searching} searchButtonActivate={props.searchButtonActivate} />
       <Nav />
     </div>
   );

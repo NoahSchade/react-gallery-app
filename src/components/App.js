@@ -26,7 +26,9 @@ export default class extends Component {
     this.replacementBlank = '';
 
     this.display = false;
+    this.buttonActive = "standby";
     this.activate = 0;
+    
 
     this.state = {
       cats: [],
@@ -40,6 +42,10 @@ export default class extends Component {
     window.addEventListener("hashchange", e => this.setBooleanListener());
   }
 
+  searchButtonActivate = () => {
+    this.buttonActive = "on";
+  }
+
   setBooleanListener(){
     this.activate++;
     this.display = true;
@@ -47,6 +53,12 @@ export default class extends Component {
       this.forceUpdate();
       this.forceUpdate();
     }
+
+    if(this.buttonActive === "off"){
+      this.forceUpdate();
+    }
+
+    this.buttonActive = "off";
   }
 
   componentDidMount() {
@@ -110,6 +122,9 @@ export default class extends Component {
     .catch(error => {
       console.log('Error fetching and parsing data', error);
     })
+
+    this.forceUpdate();
+    this.forceUpdate();
   }
 
   reformatSubject = () => {
@@ -123,7 +138,7 @@ export default class extends Component {
     return(
       <HashRouter>
         <div className="container">
-            <Header searching={this.searching} />
+            <Header searching={this.searching} searchButtonActivate={this.searchButtonActivate} />
             <Switch>
               <Route exact path="/" render={ () => <Redirect to="/cats"/> } />
               <Route exact path="/dogs" render={ () => <Gallery data={this.state.dogs} total={this.state.total} subject="Dog" {...this.display = false} /> } />

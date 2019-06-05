@@ -33,6 +33,8 @@ class Form extends Component {
     this.hashPercent = window.location.hash.replace(this.regexPercent, this.replacementSpace);
     this.hashPath = this.hashPercent.replace(this.regexSpecial, this.replacementBlank);
 
+    this.props.searchButtonActivate();
+
     if(this.pathReformatted !== this.hashPath){
       this.props.history.push(this.pathReformatted);
     }
