@@ -66,7 +66,7 @@ class SearchGalleryItems extends Component {
       this.notFoundCounter++;
     }
     
-    if(this.props.total === 0 && this.props.subject !== "cat" && this.props.subject !== "dog" && this.props.subject !== "laptop"){
+    if(this.props.total === 0){
       if(this.notFoundCounter === 1){
         this.imageItems.push(
           // Not Found

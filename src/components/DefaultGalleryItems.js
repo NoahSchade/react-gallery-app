@@ -15,7 +15,7 @@ class Galleryitem extends Component {
       )
     });
     
-    if(this.props.total === 0 && this.props.subject !== "cat" && this.props.subject !== "dog" && this.props.subject !== "laptop"){
+    if(this.props.total === 0){
       imageItems.push(
         // Not Found
         <li key="Not Found" className="not-found">
