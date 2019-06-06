@@ -1,5 +1,5 @@
 import React from 'react';
-import GalleryItemsSearch from './GalleryItemsSearch';
+import SearchGalleryItems from './SearchGalleryItems';
 import Heading from './Heading';
 
 const Gallery = (props) => {
@@ -7,7 +7,7 @@ const Gallery = (props) => {
     <div className="photo-container">
     {props.total > 0 || props.subject === "cat" || props.subject === "dog" || props.subject === "laptop" ? <Heading subject={props.subject} /> : ''}
       <ul>
-        <GalleryItemsSearch data={props.data} total={props.total} subject={props.subject} />
+        <SearchGalleryItems data={props.data} total={props.total} subject={props.subject} />
       </ul>
     </div>
   );

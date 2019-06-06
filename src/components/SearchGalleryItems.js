@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Loading from './Loading_2.gif';
 
-class GalleryItemsSearch extends Component {
+class SearchGalleryItems extends Component {
 
   constructor(props) {
     super(props);
@@ -90,4 +90,4 @@ class GalleryItemsSearch extends Component {
   }
 }
 
-export default GalleryItemsSearch;
+export default SearchGalleryItems;
