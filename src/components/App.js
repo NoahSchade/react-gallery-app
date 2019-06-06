@@ -7,6 +7,8 @@ import {
 } from 'react-router-dom';
 import axios from 'axios';
 import '../css/style.css';
+
+// Import Components
 import apiKey from '../other/config.js';
 import Header from './Header';
 import Gallery from './Gallery';
@@ -19,18 +21,23 @@ export default class extends Component {
   constructor() {
     super();
 
+    // Code used to format a string that is used to request data from Flickr and it is also used to format the subject title.
     this.regexPercent = /%20/g;
     this.replacementCross = '+';
     this.replacementSpace = ' ';
-
     this.regexSpecial = /[^a-zA-Z0-9-' '-+]/g;
     this.replacementBlank = '';
 
+    // this.display keeps track of whether to display the gallery images or the loading component.
     this.display = false;
+
+    // this.buttonActive keeps track of whether to forceUpdate or not.
     this.buttonActive = "standby";
+
+    // this.activate keeps track of whether to forceUpdate twice or not.
     this.activate = 0;
     
-
+    // These states stores data from the response of Flickr.
     this.state = {
       cats: [],
       dogs: [],
@@ -39,17 +46,19 @@ export default class extends Component {
       total: []
     };
 
-    window.addEventListener("hashchange", e => this.searching());
-    window.addEventListener("hashchange", e => this.setBooleanListener());
+    // When the URL path after the hash symbol changes execute the searching function and the
+    window.addEventListener("hashchange", e => {
+        this.activator();
+        this.searching();
+    });
   }
 
   searchButtonActivate = () => {
     this.buttonActive = "on";
   }
 
-  setBooleanListener(){
+  activator(){
     this.activate++;
-    this.display = true;
     if(this.activate <= 1){
       this.forceUpdate();
       this.forceUpdate();
@@ -144,7 +153,7 @@ export default class extends Component {
         <div className="container">
             <Header searching={this.searching} searchButtonActivate={this.searchButtonActivate} />
             <Switch>
-              <Route exact path="/" render={ () => <Redirect to="/cats"/> } />
+              <Route exact path="/" render={ () => <Redirect to="/cat"/> } />
               <Route exact path="/dog" render={ () => <Gallery data={this.state.dogs} total={this.state.total} subject="Dog" {...this.display = false} /> } />
               <Route exact path="/cat" render={ () => <Gallery data={this.state.cats} total={this.state.total} subject="Cat" {...this.display = false} /> } />
               <Route exact path="/laptop" render={ () => <Gallery data={this.state.laptops} total={this.state.total} subject="Laptop" {...this.display = false} /> } />
