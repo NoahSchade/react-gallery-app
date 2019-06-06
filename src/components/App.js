@@ -11,6 +11,7 @@ import apiKey from '../other/config.js';
 import Header from './Header';
 import Gallery from './Gallery';
 import NotFound from './NotFound';
+import LoadingPage from './LoadingPage';
 
 
 export default class extends Component {
@@ -144,7 +145,7 @@ export default class extends Component {
               <Route exact path="/dogs" render={ () => <Gallery data={this.state.dogs} total={this.state.total} subject="Dog" {...this.display = false} /> } />
               <Route exact path="/cats" render={ () => <Gallery data={this.state.cats} total={this.state.total} subject="Cat" {...this.display = false} /> } />
               <Route exact path="/laptops" render={ () => <Gallery data={this.state.laptops} total={this.state.total} subject="Laptop" {...this.display = false} /> } />
-              <Route exact path="/:search" render={ () => this.display ? <Gallery data={this.state.custom} total={this.state.total} {...this.reformatSubject()} subject={this.reformattedSubject} {...this.activate > 0 ? this.display = false : this.display = true } /> : '' } />
+              <Route exact path="/:search" render={ () => this.display ? <Gallery data={this.state.custom} total={this.state.total} {...this.reformatSubject()} subject={this.reformattedSubject} {...this.activate > 0 ? this.display = false : this.display = true } /> : <LoadingPage/> } />
               <Route component={NotFound} />
             </Switch> 
         </div>

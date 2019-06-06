@@ -106,6 +106,10 @@ input {
   margin: 0;
 }
 
+img[src="/static/media/Loading_2.31dd2fb3.gif"] { 
+  height: 100%;
+}
+
 @media only screen and (max-width: 767px)  {
   body {
     padding-top: 2em;

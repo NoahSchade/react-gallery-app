@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import loading from './loading.gif';
+import Loading from './Loading_2.gif';
 
 class GalleryItemsSearch extends Component {
 
@@ -31,7 +31,7 @@ class GalleryItemsSearch extends Component {
     this.state = {
       images: this.imageItems.map(image => ({
         ...image,
-        src: loading
+        src: Loading
       }))
     }
   }
