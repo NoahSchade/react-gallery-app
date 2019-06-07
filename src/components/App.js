@@ -31,13 +31,10 @@ export default class extends Component {
     // this.display keeps track of whether to display the gallery images or the loading component.
     this.display = false;
 
-    // this.buttonActive keeps track of whether to forceUpdate or not.
-    this.buttonActive = "standby";
-
     // this.activate keeps track of whether to forceUpdate twice or not.
     this.activate = 0;
     
-    // These states stores data from the response of Flickr.
+    // These states stores data from the response from Flickr.
     this.state = {
       cats: [],
       dogs: [],
@@ -46,29 +43,20 @@ export default class extends Component {
       total: []
     };
 
-    // When the URL path after the hash symbol changes execute the searching function and the
+    // When the URL path after the hash symbol changes execute the searching function and the activator function.
     window.addEventListener("hashchange", e => {
         this.activator();
         this.searching();
     });
   }
 
-  searchButtonActivate = () => {
-    this.buttonActive = "on";
-  }
-
+  // This function helps change the page when there is a change to the URL path after the hash symbol.
   activator(){
     this.activate++;
     if(this.activate <= 1){
       this.forceUpdate();
       this.forceUpdate();
     }
-
-    if(this.buttonActive === "off"){
-      this.forceUpdate();
-    }
-
-    this.buttonActive = "off";
   }
 
   componentDidMount() {
