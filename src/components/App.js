@@ -50,9 +50,10 @@ export default class extends Component {
 
     // When the anchor part of the URL changes execute the searching function and the activator function.
     window.addEventListener("hashchange", e => {
-        this.activator();
-        this.searching();
+      this.activator();
+      this.searching();
     });
+    
   }
 
   // This function helps change the page when the anchor part of the URL changes.
