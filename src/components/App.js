@@ -150,6 +150,7 @@ export default class extends Component {
   // The Header component is passed a "searching" prop, so when a user submits what is in the search bar the "searching" funtion is called.
   // The Gallery component contains the heading and images.
   // The LoadingPage component contains the loading page.
+  // Redirect away from the "/" path to the "/cat" path to display cat photos.
   // Redirect away from the "/0" path because that path does not return any data to help display images.
   // The "data" props passed to the Gallery component gives the component data from the response from Flickr. This data helps generate the images.
   // The "total" props keeps track of whether the search on a particular subject has images or not. If not then the heading is removed and a "No Results Found" message is shown to the user.
