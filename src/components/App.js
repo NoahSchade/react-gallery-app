@@ -33,7 +33,7 @@ export default class extends Component {
     this.regexSpecial = /[^a-zA-Z0-9-' '-+]/g;
     this.replacementBlank = '';
 
-    // this.display keeps track of whether to display the gallery images or the loading component.
+    // this.display keeps track of whether to display the gallery images and heading or the LoadingPage component.
     this.display = false;
 
     // this.activate keeps track of whether to forceUpdate twice or not.
@@ -53,7 +53,6 @@ export default class extends Component {
       this.activator();
       this.searching();
     });
-    
   }
 
   // This function helps change the page when the anchor part of the URL changes.
@@ -116,26 +115,30 @@ export default class extends Component {
   }
 
   // Request and store data for the "/:search" path when the app first loads and when the anchor part of the URL changes.
+  // Do not fetch data with a window.location.hash ("#/0") which causes an error.
+  // When a response comes back from Flickr, set this.display to true to end the loading page and show the images.
   searching = () => {
-    this.string = window.location.hash;
-    this.reformatZero = this.string.replace(this.regexZero, this.replacementZero);
-    this.reformatSpace = this.reformatZero.replace(this.regexPercent, this.replacementCross);
-    this.reformatSpecial = this.reformatSpace.replace(this.regexSpecial, this.replacementBlank);
-    this.reformattedString = this.reformatSpecial;
-    axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=${this.reformattedString}&per_page=24&page=1&format=json&nojsoncallback=1`)
-    .then(response => {
-      this.setState({
-        custom: response.data.photos.photo,
-        total:  Number(response.data.photos.total),
-        display: this.display = true
-      });
-    })
-    .catch(error => {
-      console.log('Error fetching and parsing data', error);
-    })
+    if(window.location.hash !== "#/0"){
+      this.string = window.location.hash;
+      this.reformatZero = this.string.replace(this.regexZero, this.replacementZero);
+      this.reformatSpace = this.reformatZero.replace(this.regexPercent, this.replacementCross);
+      this.reformatSpecial = this.reformatSpace.replace(this.regexSpecial, this.replacementBlank);
+      this.reformattedString = this.reformatSpecial;
+      axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=${this.reformattedString}&per_page=24&page=1&format=json&nojsoncallback=1`)
+      .then(response => {
+        this.setState({
+          custom: response.data.photos.photo,
+          total:  Number(response.data.photos.total),
+          display: this.display = true
+        });
+      })
+      .catch(error => {
+        console.log('Error fetching and parsing data', error);
+      })
+    }
   }
 
-  // Reformat subject when "reformatSubject" is called by the "/:search" path.
+  // Reformat subject when the "reformatSubject" function is called by the "/:search" path.
   reformatSubject = () => {
     this.string = window.location.hash;
     this.reformatSpace = this.string.replace(this.regexPercent, this.replacementSpace);
@@ -143,13 +146,19 @@ export default class extends Component {
     this.reformattedSubject = this.reformatSpecial;
   }
 
-
   // The Header component contains the default navigation buttons and the search bar.
   // The Header component is passed a "searching" prop, so when a user submits what is in the search bar the "searching" funtion is called.
+  // The Gallery component contains the heading and images.
+  // The LoadingPage component contains the loading page.
+  // Redirect away from the "/0" path because that path does not return any data to help display images.
   // The "data" props passed to the Gallery component gives the component data from the response from Flickr. This data helps generate the images.
   // The "total" props keeps track of whether the search on a particular subject has images or not. If not then the heading is removed and a "No Results Found" message is shown to the user.
   // The "subject" props is used to display letters and/or numbers and/or dashes in the heading depending on what was searched for.
-  // The "subject" props is also used for the image "alt" attribute.
+  // The "subject" props is also used for the image "alt" attributes.
+  // Call "reformatSubject" when user is on the "/:search" path.
+  // "this.activate" helps change the page when the anchor part of the URL changes.
+  // If this.display is true when the user is on the "/:search" path, remove the loading page and display the heading and gallery images. Otherwise remove the heading and images and display the loading page.
+  // If none of the paths listed below match the URL path like "/laptop/bag" then the user will recieve a "404 error: Page Not Found".
   render(){
     return(
       <HashRouter>
@@ -161,7 +170,7 @@ export default class extends Component {
               <Route exact path="/dog" render={ () => <Gallery data={this.state.dogs} total={this.state.total} subject="Dog" {...this.display = false} /> } />
               <Route exact path="/cat" render={ () => <Gallery data={this.state.cats} total={this.state.total} subject="Cat" {...this.display = false} /> } />
               <Route exact path="/laptop" render={ () => <Gallery data={this.state.laptops} total={this.state.total} subject="Laptop" {...this.display = false} /> } />
-              <Route exact path="/:search" render={ () => this.display ? <Gallery data={this.state.custom} total={this.state.total} {...this.reformatSubject()} subject={this.reformattedSubject} {...this.activate > 0 ? this.display = false : this.display = true } /> : <LoadingPage /> } />
+              <Route exact path="/:search" render={ () => this.display ? <Gallery data={this.state.custom} total={this.state.total} {...this.reformatSubject()} subject={this.reformattedSubject} {...this.activate === 0 ? this.display = true : this.display = false } /> : <LoadingPage /> } />
               <Route component={NotFound} />
             </Switch> 
         </div>
