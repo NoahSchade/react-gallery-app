@@ -1,3 +1,4 @@
+// Imports that make app function
 import React, { Component } from 'react';
 import {
   HashRouter,
@@ -6,6 +7,8 @@ import {
   Switch
 } from 'react-router-dom';
 import axios from 'axios';
+
+// Import that adds styling to the app
 import '../css/style.css';
 
 // Import Components
@@ -21,9 +24,11 @@ export default class extends Component {
   constructor() {
     super();
 
-    // Code used to format a string that is used to request data from Flickr and it is also used to format the subject title.
+    // Code used to format a string that is used to request data from Flickr in the "searching" function and it is also used to format the subject in the "reformatSubject" function.
     this.regexPercent = /%20/g;
     this.replacementCross = '+';
+    this.regexZero = /^0$/;
+    this.replacementZero = ' 0';
     this.replacementSpace = ' ';
     this.regexSpecial = /[^a-zA-Z0-9-' '-+]/g;
     this.replacementBlank = '';
@@ -43,15 +48,15 @@ export default class extends Component {
       total: []
     };
 
-    // When the URL path after the hash symbol changes execute the searching function and the activator function.
+    // When the anchor part of the URL changes execute the searching function and the activator function.
     window.addEventListener("hashchange", e => {
         this.activator();
         this.searching();
     });
   }
 
-  // This function helps change the page when there is a change to the URL path after the hash symbol.
-  activator(){
+  // This function helps change the page when the anchor part of the URL changes.
+  activator = () => {
     this.activate++;
     if(this.activate <= 1){
       this.forceUpdate();
@@ -59,16 +64,17 @@ export default class extends Component {
     }
   }
 
+  // Execute these functions in order to retrieve data from Flickr.
   componentDidMount() {
     this.catSearch();
     this.dogSearch();
     this.laptopSearch();
     this.searching();
-    this.staticPath = window.location.hash;
   }
 
+  // Request and store data for the "/cat" path when the app first loads.
   catSearch = () => {
-    axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=cat&per_page=24&page=3&format=json&nojsoncallback=1`)
+    axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=cat&per_page=24&page=1&format=json&nojsoncallback=1`)
     .then(response => {
       this.setState({
         cats: response.data.photos.photo,
@@ -79,9 +85,10 @@ export default class extends Component {
       console.log('Error fetching and parsing data', error);
     });
   }
-
+  
+  // Request and store data for the "/dog" path when the app first loads.
   dogSearch = () => {
-    axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=dog&per_page=24&page=3&format=json&nojsoncallback=1`)
+    axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=dog&per_page=24&page=1&format=json&nojsoncallback=1`)
     .then(response => {
       this.setState({
         dogs: response.data.photos.photo,
@@ -93,6 +100,7 @@ export default class extends Component {
     });
   }
 
+  // Request and store data for the "/laptop" path when the app first loads.
   laptopSearch = () => {
     axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=laptop&per_page=24&page=1&format=json&nojsoncallback=1`)
     .then(response => {
@@ -106,9 +114,11 @@ export default class extends Component {
     });
   }
 
+  // Request and store data for the "/:search" path when the app first loads and when the anchor part of the URL changes.
   searching = () => {
     this.string = window.location.hash;
-    this.reformatSpace = this.string.replace(this.regexPercent, this.replacementCross);
+    this.reformatZero = this.string.replace(this.regexZero, this.replacementZero);
+    this.reformatSpace = this.reformatZero.replace(this.regexPercent, this.replacementCross);
     this.reformatSpecial = this.reformatSpace.replace(this.regexSpecial, this.replacementBlank);
     this.reformattedString = this.reformatSpecial;
     axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=${this.reformattedString}&per_page=24&page=1&format=json&nojsoncallback=1`)
@@ -118,16 +128,15 @@ export default class extends Component {
         total:  Number(response.data.photos.total),
         display: this.display = true
       });
-      
     })
     .catch(error => {
       console.log('Error fetching and parsing data', error);
     })
-
     this.forceUpdate();
     this.forceUpdate();
   }
 
+  // Reformat subject when "reformatSubject" is called by the "/:search" path.
   reformatSubject = () => {
     this.string = window.location.hash;
     this.reformatSpace = this.string.replace(this.regexPercent, this.replacementSpace);
@@ -135,17 +144,24 @@ export default class extends Component {
     this.reformattedSubject = this.reformatSpecial;
   }
 
+
+  // The Header component contains the default navigation buttons and the search bar.
+  // The Header component is passed a "searching" prop, so when a user submits what is in the search bar the "searching" funtion is called.
+  // The "data" props passed to the Gallery component gives the component data from the response from Flickr. This data helps generate the images.
+  // The "total" props keeps track of whether the search on a particular subject has images or not. If not then the heading title is removed and a "No Results Found" message is shown to the user.
+  // The "subject" props is used to display the letters or numbers of the heading.
   render(){
     return(
       <HashRouter>
         <div className="container">
-            <Header searching={this.searching} searchButtonActivate={this.searchButtonActivate} />
+            <Header searching={this.searching} />
             <Switch>
               <Route exact path="/" render={ () => <Redirect to="/cat"/> } />
+              <Route exact path="/0" render={ () => <Redirect to="/%200"/> } />
               <Route exact path="/dog" render={ () => <Gallery data={this.state.dogs} total={this.state.total} subject="Dog" {...this.display = false} /> } />
               <Route exact path="/cat" render={ () => <Gallery data={this.state.cats} total={this.state.total} subject="Cat" {...this.display = false} /> } />
               <Route exact path="/laptop" render={ () => <Gallery data={this.state.laptops} total={this.state.total} subject="Laptop" {...this.display = false} /> } />
-              <Route exact path="/:search" render={ () => this.display ? <Gallery data={this.state.custom} total={this.state.total} {...this.reformatSubject()} subject={this.reformattedSubject} {...this.activate > 0 ? this.display = false : this.display = true } /> : <LoadingPage/> } />
+              <Route exact path="/:search" render={ () => this.display ? <Gallery data={this.state.custom} total={this.state.total} {...this.reformatSubject()} subject={this.reformattedSubject} {...this.activate > 0 ? this.display = false : this.display = true } /> : <LoadingPage /> } />
               <Route component={NotFound} />
             </Switch> 
         </div>

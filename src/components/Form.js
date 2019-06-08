@@ -12,6 +12,9 @@ class Form extends Component {
     this.regexSpecial = /[^a-zA-Z0-9-' ']/g;
     this.replacementBlank = '';
 
+    this.regexZero = /^0$/;
+    this.replacementZero = ' 0';
+
     this.state = {
       value: ''
     };
@@ -27,7 +30,8 @@ class Form extends Component {
   handleSubmit(event) {
     event.preventDefault();
     let path = this.state.value;
-    this.pathReformatPercent = path.replace(this.regexPercent, this.replacementSpace);
+    this.reformatZero = path.replace(this.regexZero, this.replacementZero);
+    this.pathReformatPercent = this.reformatZero.replace(this.regexPercent, this.replacementSpace);
     this.pathReformatted = this.pathReformatPercent.replace(this.regexSpecial, this.replacementBlank);
     
     this.hashPercent = window.location.hash.replace(this.regexPercent, this.replacementSpace);
