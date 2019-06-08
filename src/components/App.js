@@ -133,8 +133,6 @@ export default class extends Component {
     .catch(error => {
       console.log('Error fetching and parsing data', error);
     })
-    this.forceUpdate();
-    this.forceUpdate();
   }
 
   // Reformat subject when "reformatSubject" is called by the "/:search" path.
@@ -149,16 +147,17 @@ export default class extends Component {
   // The Header component contains the default navigation buttons and the search bar.
   // The Header component is passed a "searching" prop, so when a user submits what is in the search bar the "searching" funtion is called.
   // The "data" props passed to the Gallery component gives the component data from the response from Flickr. This data helps generate the images.
-  // The "total" props keeps track of whether the search on a particular subject has images or not. If not then the heading title is removed and a "No Results Found" message is shown to the user.
-  // The "subject" props is used to display the letters or numbers of the heading.
+  // The "total" props keeps track of whether the search on a particular subject has images or not. If not then the heading is removed and a "No Results Found" message is shown to the user.
+  // The "subject" props is used to display letters and/or numbers and/or dashes in the heading depending on what was searched for.
+  // The "subject" props is also used for the image "alt" attribute.
   render(){
     return(
       <HashRouter>
         <div className="container">
             <Header searching={this.searching} />
             <Switch>
-              <Route exact path="/" render={ () => <Redirect to="/cat"/> } />
-              <Route exact path="/0" render={ () => <Redirect to="/%200"/> } />
+              <Route exact path="/" render={ () => <Redirect to="/cat" /> } />
+              <Route exact path="/0" render={ () => <Redirect to="/%200" /> } />
               <Route exact path="/dog" render={ () => <Gallery data={this.state.dogs} total={this.state.total} subject="Dog" {...this.display = false} /> } />
               <Route exact path="/cat" render={ () => <Gallery data={this.state.cats} total={this.state.total} subject="Cat" {...this.display = false} /> } />
               <Route exact path="/laptop" render={ () => <Gallery data={this.state.laptops} total={this.state.total} subject="Laptop" {...this.display = false} /> } />
