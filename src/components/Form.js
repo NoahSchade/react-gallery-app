@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-// import the component "withRouter" to make "this.props.history.push(...)" work.
+// import the component "withRouter" to make "this.props.history.push(this.pathReformatted)" work.
 import { withRouter } from 'react-router-dom';
 
 class Form extends Component {
@@ -31,23 +31,24 @@ class Form extends Component {
   // When the form is being submitted, the "path" variable is set to the characters in the form.
   // Then, the "path" variable is reformatted and stored into "this.pathReformatted". For example, if this is entered into the search bar and submitted "guy%20likes %*&+^vacation" it would be reformatted to "guy likes vacation".
   // "this.hashZero" is reformatted in the same way as the "path" variable.
-  // ""
+  // The anchor part of the URL cannot change if the previous submit is the same as the current submit. That way the page doesn't reload the same photos when the same search is entered twice in a row.
+  // "this.props.history.push(this.pathReformatted)" changes the path of the URL to what was entered and submitted in the search bar.
   handleSubmit = (event) => {
     event.preventDefault();
     let path = this.state.value;
     this.reformatZero = path.replace(this.regexZero, this.replacementZero);
     this.pathReformatPercent = this.reformatZero.replace(this.regexPercent, this.replacementSpace);
     this.pathReformatted = this.pathReformatPercent.replace(this.regexSpecial, this.replacementBlank);
-    
     this.hashZero = window.location.hash.replace(this.regexZero, this.replacementZero);
     this.hashPercent = this.hashZero.replace(this.regexPercent, this.replacementSpace);
     this.hashPath = this.hashPercent.replace(this.regexSpecial, this.replacementBlank);
-
     if(this.pathReformatted !== this.hashPath){
       this.props.history.push(this.pathReformatted);
     }
   }
 
+  // Create the search bar.
+  // Every time a user types in a character, the onChange attribute calls the "handleChange" function. Which updates the "value" state to what was entered in the search bar.
   render() {
     return (
       <form className="search-form" onSubmit={this.handleSubmit}>
