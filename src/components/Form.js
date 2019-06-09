@@ -48,7 +48,7 @@ class Form extends Component {
   }
 
   // Create the search bar.
-  // Every time a user types in a character, the onChange attribute calls the "handleChange" function. Which updates the "value" state to what was entered in the search bar.
+  // Every time a user types in a character, the onChange attribute calls the "handleChange" function. Which updates the "value" state to what is entered in the search bar.
   render() {
     return (
       <form className="search-form" onSubmit={this.handleSubmit}>
