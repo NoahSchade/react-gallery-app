@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+
+// import the component "withRouter" to make "this.props.history.push(...)" work.
 import { withRouter } from 'react-router-dom';
 
 class Form extends Component {
@@ -6,36 +8,43 @@ class Form extends Component {
   constructor(props) {
     super(props);
 
+    // This code is used to reformat the string obtained from the current anchor part of the URL and the previous one.
     this.regexPercent = /%20/g;
     this.replacementSpace = ' ';
-
     this.regexSpecial = /[^a-zA-Z0-9-' ']/g;
     this.replacementBlank = '';
-
     this.regexZero = /^0$/;
     this.replacementZero = ' 0';
 
+    // Stores the characters entered into the search bar.
     this.state = {
       value: ''
     };
-
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleChange(event) {
+  // Every time a user types a character into the search bar, update the "value" state.
+  handleChange = (event) => {
     this.setState({value: event.target.value});
   }
 
-  handleSubmit(event) {
+  // The "handleSubmit" method uses event.preventDefault() to make sure the page does not refresh.
+  // When the form is being submitted, the "path" variable is set to the characters in the form.
+  // Then, the "path" variable is reformatted and stored into "this.pathReformatted". For example, if this is entered into the search bar and submitted "guy%20likes %*&+^vacation" it would be reformatted to "guy likes vacation".
+  // "this.hashZero" is reformatted in the same way as the "path" variable.
+  // ""
+  handleSubmit = (event) => {
     event.preventDefault();
     let path = this.state.value;
     this.reformatZero = path.replace(this.regexZero, this.replacementZero);
     this.pathReformatPercent = this.reformatZero.replace(this.regexPercent, this.replacementSpace);
     this.pathReformatted = this.pathReformatPercent.replace(this.regexSpecial, this.replacementBlank);
     
-    this.hashPercent = window.location.hash.replace(this.regexPercent, this.replacementSpace);
+    this.hashZero = window.location.hash.replace(this.regexZero, this.replacementZero);
+    this.hashPercent = this.hashZero.replace(this.regexPercent, this.replacementSpace);
     this.hashPath = this.hashPercent.replace(this.regexSpecial, this.replacementBlank);
+
+    console.log(this.pathReformatted);
+    console.log(this.hashPath);
 
     if(this.pathReformatted !== this.hashPath){
       this.props.history.push(this.pathReformatted);
@@ -57,4 +66,4 @@ class Form extends Component {
   }
 }
 
-export default withRouter(Form)
+export default withRouter(Form);
