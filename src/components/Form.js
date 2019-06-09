@@ -43,9 +43,6 @@ class Form extends Component {
     this.hashPercent = this.hashZero.replace(this.regexPercent, this.replacementSpace);
     this.hashPath = this.hashPercent.replace(this.regexSpecial, this.replacementBlank);
 
-    console.log(this.pathReformatted);
-    console.log(this.hashPath);
-
     if(this.pathReformatted !== this.hashPath){
       this.props.history.push(this.pathReformatted);
     }

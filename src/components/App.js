@@ -45,7 +45,10 @@ export default class extends Component {
       dogs: [],
       laptops: [],
       custom: [],
-      total: []
+      catsTotal: [],
+      dogsTotal: [],
+      laptopsTotal: [],
+      searchingTotal: []
     };
 
     // When the anchor part of the URL changes execute the searching function and the activator function.
@@ -78,7 +81,7 @@ export default class extends Component {
     .then(response => {
       this.setState({
         cats: response.data.photos.photo,
-        total:  Number(response.data.photos.total),
+        catsTotal: Number(response.data.photos.total)
       });
     })
     .catch(error => {
@@ -92,7 +95,7 @@ export default class extends Component {
     .then(response => {
       this.setState({
         dogs: response.data.photos.photo,
-        total:  Number(response.data.photos.total)
+        dogsTotal: Number(response.data.photos.total)
       });
     })
     .catch(error => {
@@ -106,7 +109,7 @@ export default class extends Component {
     .then(response => {
       this.setState({
         laptops: response.data.photos.photo,
-        total:  Number(response.data.photos.total)
+        laptopsTotal:  Number(response.data.photos.total)
       });
     })
     .catch(error => {
@@ -128,7 +131,7 @@ export default class extends Component {
       .then(response => {
         this.setState({
           custom: response.data.photos.photo,
-          total:  Number(response.data.photos.total),
+          searchingTotal:  Number(response.data.photos.total),
           display: this.display = true
         });
       })
@@ -168,10 +171,10 @@ export default class extends Component {
             <Switch>
               <Route exact path="/" render={ () => <Redirect to="/cat" /> } />
               <Route exact path="/0" render={ () => <Redirect to="/%200" /> } />
-              <Route exact path="/dog" render={ () => <Gallery data={this.state.dogs} total={this.state.total} subject="Dog" {...this.display = false} /> } />
-              <Route exact path="/cat" render={ () => <Gallery data={this.state.cats} total={this.state.total} subject="Cat" {...this.display = false} /> } />
-              <Route exact path="/laptop" render={ () => <Gallery data={this.state.laptops} total={this.state.total} subject="Laptop" {...this.display = false} /> } />
-              <Route exact path="/:search" render={ () => this.display ? <Gallery data={this.state.custom} total={this.state.total} {...this.reformatSubject()} subject={this.reformattedSubject} {...this.activate === 0 ? this.display = true : this.display = false } /> : <LoadingPage /> } />
+              <Route exact path="/cat" render={ () => <Gallery data={this.state.cats} total={this.state.catsTotal} subject="Cat" {...this.display = false} /> } />
+              <Route exact path="/dog" render={ () => <Gallery data={this.state.dogs} total={this.state.dogsTotal} subject="Dog" {...this.display = false} /> } />
+              <Route exact path="/laptop" render={ () => <Gallery data={this.state.laptops} total={this.state.laptopsTotal} subject="Laptop" {...this.display = false} /> } />
+              <Route exact path="/:search" render={ () => this.display ? <Gallery data={this.state.custom} total={this.state.searchingTotal} {...this.reformatSubject()} subject={this.reformattedSubject} {...this.activate === 0 ? this.display = true : this.display = false } /> : <LoadingPage /> } />
               <Route component={NotFound} />
             </Switch> 
         </div>
