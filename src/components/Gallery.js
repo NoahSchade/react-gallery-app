@@ -1,8 +1,11 @@
 import React from 'react';
+import Heading from './Heading';
 import DefaultGalleryItems from './DefaultGalleryItems';
 import SearchGalleryItems from './SearchGalleryItems';
-import Heading from './Heading';
 
+// In the "Gallery" component, if there are images for a particular search, then display the heading. Otherwise remove the heading.
+// If one of the default buttons are selected or the URL matches one of the default paths, then use the "DefaultGalleryItems" component. Otherwise use the "SearchGalleryItems" component for custom searches.
+// Both the "DefaultGalleryItems" component and the "SearchGalleryItems" are used to display a list of images in between the "ul" tags.
 const Gallery = (props) => {
   return (
     <div className="photo-container">
