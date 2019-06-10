@@ -30,6 +30,7 @@ class SearchGalleryItems extends Component {
 
     // The "images" state contains a "Loading" gif which is only displayed in the place of each main image that has not fully loaded yet.
     // It also contains the main images.
+    // The number 1 stands for the src of the images.
     this.state = {
       images: this.imageItems.map(image => ({
         ...image,
@@ -62,14 +63,16 @@ class SearchGalleryItems extends Component {
         <img src={image[1]} alt={this.props.subject} />
       </li>
     ));
-    
 
+    // This code block checks whether there are images are not. If there is none add one to the "this.notFoundCounter".
     if(this.props.total !== 0) {
       this.notFoundCounter = 0;
     } else {
       this.notFoundCounter++;
     }
-    
+
+    // If there are no images for the current search and the "this.notFoundCounter" has a value of 1 then add the "No Results Found" message.
+    // The "this.notFoundCounter" is used to make sure there are not 2 or more "No Results Found" messages displaying at the same time.
     if(this.props.total === 0){
       if(this.notFoundCounter === 1){
         this.imageItems.push(
@@ -85,11 +88,12 @@ class SearchGalleryItems extends Component {
           )
       }
 
+      // return the "No Results Found" message if there are no images.
       const listPhotos = this.imageItems;
-
       return listPhotos;
     };
   
+    // return the list of images or the "No Results Found" message if there are no images.
     return listPhotos;
   }
 }
