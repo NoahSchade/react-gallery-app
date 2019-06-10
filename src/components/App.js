@@ -167,7 +167,7 @@ export default class extends Component {
     return(
       <HashRouter>
         <div className="container">
-            <Header searching={this.searching} />
+            <Header />
             <Switch>
               <Route exact path="/" render={ () => <Redirect to="/cat" /> } />
               <Route exact path="/0" render={ () => <Redirect to="/%200" /> } />

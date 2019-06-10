@@ -5,8 +5,8 @@ import { withRouter } from 'react-router-dom';
 
 class Form extends Component {
 
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
 
     // This code is used to reformat the string obtained from the current anchor part of the URL and the previous one.
     this.regexPercent = /%20/g;

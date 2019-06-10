@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
+// The Nav component sets up the default buttons.
 const Nav = () => {
   return (
     <nav className="main-nav">
