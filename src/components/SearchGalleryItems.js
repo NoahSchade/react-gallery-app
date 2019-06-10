@@ -9,17 +9,17 @@ class SearchGalleryItems extends Component {
     this.notFoundCounter = 0;
     this.imageItems = [];
 
-    // Stores an object with data for each image into the "imageItems" array.
+    // Stores an array with data for each image into the "imageItems" array.
     // When there is a URL with a farm of 0, reject it because it causes an error and doesn't display an image.
     [this.props.data][0].map((image) => {
       if(image.farm !== 0){
         return (
           this.imageItems.push(
-            {
-              id: image.id,
-              src: `https://farm${image.farm}.staticflickr.com/${image.server}/${image.id}_${image.secret}.jpg`, 
-              farm: image.farm
-            }
+            [
+              image.id,
+              `https://farm${image.farm}.staticflickr.com/${image.server}/${image.id}_${image.secret}.jpg`, 
+              image.farm
+            ]
           )
         )
       } else {
@@ -57,8 +57,8 @@ class SearchGalleryItems extends Component {
   render(){
     // Store image data into listPhotos
     const listPhotos = this.state.images.map(image => (
-      <li key={image.id}>
-        <img src={image.src} alt={this.props.subject} />
+      <li key={image[0]}>
+        <img src={image[1]} alt={image[2]} />
       </li>
     ));
     
@@ -80,7 +80,7 @@ class SearchGalleryItems extends Component {
         )
       } else if(this.notFoundCounter > 1) {
           this.imageItems.push(
-           ''
+            null
           )
       }
 
