@@ -17,8 +17,7 @@ class SearchGalleryItems extends Component {
           this.imageItems.push(
             [
               image.id,
-              `https://farm${image.farm}.staticflickr.com/${image.server}/${image.id}_${image.secret}.jpg`, 
-              image.farm
+              `https://farm${image.farm}.staticflickr.com/${image.server}/${image.id}_${image.secret}.jpg`
             ]
           )
         )
@@ -34,18 +33,18 @@ class SearchGalleryItems extends Component {
     this.state = {
       images: this.imageItems.map(image => ({
         ...image,
-        src: Loading
+        1: Loading
       }))
     }
   }
 
   componentDidMount() {
     this.state.images.forEach((image, index) => {
-      const {src} = this.imageItems[index] // get image primary src
+      const src = this.imageItems[index][1] // get image primary src
       const primaryImage = new Image() // create an image object programmatically
       primaryImage.onload = () => {
         const images = [...this.state.images] // copy images array from state
-        images[index].src = src // adjust loaded image src
+        images[index][1] = src // adjust loaded image src
         this.setState({
           images
         })
@@ -55,10 +54,12 @@ class SearchGalleryItems extends Component {
   }
 
   render(){
-    // Store image data into listPhotos
+    // Store image data into listPhotos.
+    // "image[0]" is the id.
+    // "image[1]" is the URL.
     const listPhotos = this.state.images.map(image => (
       <li key={image[0]}>
-        <img src={image[1]} alt={image[2]} />
+        <img src={image[1]} alt={this.props.subject} />
       </li>
     ));
     
