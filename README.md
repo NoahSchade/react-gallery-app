@@ -4,11 +4,11 @@ You can also search for images by typing directly into the anchor part of the UR
 
 To use this project, you must add a new "config.js" file into the "other" folder and it should give you a relative path that looks like this: "src\other\config.js".
 
-In your "config.js" file, you should enter the following:
-
+In your new "config.js" file, you should enter the following:
+________________________________________
 const apiKey = [YOUR API KEY GOES HERE];
 export default apiKey;
-/////////////////////////////////////////////////////////
+________________________________________
 
 
 
