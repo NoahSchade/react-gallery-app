@@ -7,9 +7,10 @@ class SearchGalleryItems extends Component {
     super(props);
 
     this.notFoundCounter = 0;
-
     this.imageItems = [];
 
+    // Stores an object with data for each image into the "imageItems" array.
+    // When there is a URL with a farm of 0, reject it because it causes an error and doesn't display an image.
     [this.props.data][0].map((image) => {
       if(image.farm !== 0){
         return (
@@ -23,11 +24,13 @@ class SearchGalleryItems extends Component {
         )
       } else {
         return (
-          null
+          ''
         )
       }
     });
 
+    // The "images" state contains a "Loading" gif which is only displayed in the place of each main image that has not fully loaded yet.
+    // It also contains the main images.
     this.state = {
       images: this.imageItems.map(image => ({
         ...image,
@@ -40,7 +43,7 @@ class SearchGalleryItems extends Component {
     this.state.images.forEach((image, index) => {
       const {src} = this.imageItems[index] // get image primary src
       const primaryImage = new Image() // create an image object programmatically
-      primaryImage.onload = () => { // use arrow function here
+      primaryImage.onload = () => {
         const images = [...this.state.images] // copy images array from state
         images[index].src = src // adjust loaded image src
         this.setState({
@@ -52,7 +55,7 @@ class SearchGalleryItems extends Component {
   }
 
   render(){
-
+    // Store image data into listPhotos
     const listPhotos = this.state.images.map(image => (
       <li key={image.id}>
         <img src={image.src} alt={this.props.subject} />

@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 class Galleryitem extends Component {
   render(){
 
-    // This code adds a URL of where to get the images and stores it in the imageItems array.
+    // Stores data for each image into the "imageItems" array.
     // When there is a URL with a farm of 0, reject it because it causes an error and doesn't display an image.
     const imageItems = [];
     [this.props.data][0].map((image) => {
