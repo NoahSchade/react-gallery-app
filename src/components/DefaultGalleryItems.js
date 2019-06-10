@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 
 class Galleryitem extends Component {
   render(){
+
+    // This code adds a URL of where to get the images and stores it in the imageItems array.
+    // When there is a URL with a farm of 0, reject it because it causes an error and doesn't display an image.
     const imageItems = [];
     [this.props.data][0].map((image) => {
       return (
@@ -15,15 +18,17 @@ class Galleryitem extends Component {
       )
     });
     
+    // If no images are returned, then display a no results found message.
     if(this.props.total === 0){
       imageItems.push(
-        // Not Found
         <li key="Not Found" className="not-found">
           <h3>No Results Found</h3>
           <p>Your search did not return any results. Please try again.</p>
         </li>
       )
     };
+
+    // imageItems array is returned. It's contents is placed inside the ul tags of the "Gallery.js" component.
     return imageItems;
   }
 }
