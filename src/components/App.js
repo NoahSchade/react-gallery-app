@@ -161,7 +161,7 @@ export default class extends Component {
   // The "subject" props is also used for the image "alt" attributes.
   // Call "reformatSubject" when user is on the "/:search" path.
   // "this.activate" helps change the page when the anchor part of the URL changes.
-  // If this.display is true when the user is on the "/:search" path, remove the loading page and display the heading and gallery images. Otherwise remove the heading and images and display the loading page.
+  // If this.display is true when the user is on the "/:search" path, remove the loading page and display the heading and gallery images or the "No Results Found" message. Otherwise remove the heading and images or the "No Results Found" message and display the loading page.
   // If none of the paths listed below match the URL path specified like "/laptop/bag" then the user will recieve a "404 error: Page Not Found".
   render(){
     return(
