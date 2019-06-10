@@ -1,3 +1,17 @@
+This app is an image gallery app.
+You can search for photos by using the search bar or you can view images with the default buttons.
+You can also search for images by typing directly into the anchor part of the URL.
+
+To use this project, you must add a new "config.js" file into the "other" folder and it should give you a relative path that looks like this: "src\other\config.js".
+
+In your "config.js" file, you should enter the following:
+
+const apiKey = [YOUR API KEY GOES HERE];
+export default apiKey;
+/////////////////////////////////////////////////////////
+
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
