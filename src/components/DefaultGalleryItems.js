@@ -28,7 +28,7 @@ class Galleryitem extends Component {
       )
     };
 
-    // imageItems array is returned. It's contents is placed inside the ul tags of the "Gallery.js" component.
+    // imageItems array is returned. It's contents are placed inside the ul tags of the "Gallery.js" component.
     return imageItems;
   }
 }
